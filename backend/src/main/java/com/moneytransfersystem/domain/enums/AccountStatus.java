@@ -1,4 +1,8 @@
+// src/main/java/com/moneytransfersystem/domain/enums/AccountStatus.java
 package com.moneytransfersystem.domain.enums;
 
-public class AccountStatus {
+public enum AccountStatus {
+    ACTIVE,
+    LOCKED,
+    CLOSED
 }
