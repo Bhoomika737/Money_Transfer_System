@@ -2,24 +2,34 @@ package com.moneytransfersystem.domain.entities;
 
 import com.moneytransfersystem.domain.enums.AccountStatus;
 import jakarta.persistence.*;
+import lombok.*;
+
 import java.math.BigDecimal;
 import java.time.Instant;
+import java.util.UUID;
 
 @Entity
 @Table(name = "accounts")
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
+@Builder
+@ToString
 public class Account {
+
     @Id
-    @Column(name = "account_id", length = 64)
+    @Column(name = "account_id", length = 64, nullable = false, updatable = false)
     private String id;
 
-    @Column(name = "holder_name")
+    @Column(name = "holder_name", nullable = false)
     private String holderName;
 
     @Column(name = "balance", precision = 19, scale = 4, nullable = false)
     private BigDecimal balance;
 
     @Enumerated(EnumType.STRING)
-    @Column(name = "status")
+    @Column(name = "status", nullable = false)
     private AccountStatus status;
 
     @Version
@@ -28,14 +38,17 @@ public class Account {
     @Column(name = "last_updated")
     private Instant lastUpdated;
 
-    public Account() {}
-
-    public Account(String id, String holderName, BigDecimal balance, AccountStatus status) {
-        this.id = id;
-        this.holderName = holderName;
-        this.balance = balance;
-        this.status = status;
-        this.lastUpdated = Instant.now();
+    /**
+     * Factory method to create a new account with a generated UUID.
+     */
+    public static Account create(String holderName, BigDecimal initialBalance, AccountStatus status) {
+        return Account.builder()
+                .id(UUID.randomUUID().toString())
+                .holderName(holderName)
+                .balance(initialBalance)
+                .status(status)
+                .lastUpdated(Instant.now())
+                .build();
     }
 
     public void debit(BigDecimal amount) {
@@ -45,6 +58,9 @@ public class Account {
         if (balance.compareTo(amount) < 0) {
             throw new IllegalArgumentException("Insufficient balance");
         }
+        if (!isActive()) {
+            throw new IllegalStateException("Account is not active");
+        }
         balance = balance.subtract(amount);
         lastUpdated = Instant.now();
     }
@@ -53,34 +69,14 @@ public class Account {
         if (amount.compareTo(BigDecimal.ZERO) <= 0) {
             throw new IllegalArgumentException("Deposit amount must be positive");
         }
+        if (!isActive()) {
+            throw new IllegalStateException("Account is not active");
+        }
         balance = balance.add(amount);
         lastUpdated = Instant.now();
     }
 
-    public boolean isActive() { return status == AccountStatus.ACTIVE; }
-
-
-    public String getId() { return id; }
-    public void setId(String id) { this.id = id; }
-    public String getHolderName() { return holderName; }
-    public void setHolderName(String holderName) { this.holderName = holderName; }
-    public BigDecimal getBalance() { return balance; }
-    public void setBalance(BigDecimal balance) { this.balance = balance; }
-    public AccountStatus getStatus() { return status; }
-    public void setStatus(AccountStatus status) { this.status = status; }
-    public Long getVersion() { return version; }
-    public Instant getLastUpdated() { return lastUpdated; }
-    public void setLastUpdated(Instant lastUpdated) { this.lastUpdated = lastUpdated; }
-
-    @Override
-    public String toString() {
-        return "Account{" +
-                "id='" + id + '\'' +
-                ", holderName='" + holderName + '\'' +
-                ", balance=" + balance +
-                ", status=" + status +
-                ", version=" + version +
-                ", lastUpdated=" + lastUpdated +
-                '}';
+    public boolean isActive() {
+        return status == AccountStatus.ACTIVE;
     }
 }
