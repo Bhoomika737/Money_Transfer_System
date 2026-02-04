@@ -1,5 +1,0 @@
-com\moneytransfersystem\AppTest.class
-com\moneytransfersystem\domain\dto\TransferRequestValidationTest.class
-com\moneytransfersystem\support\TestDataFactory.class
-com\moneytransfersystem\domain\model\AccountTest.class
-com\moneytransfersystem\domain\service\MoneyTransferDomainServiceTest.class
