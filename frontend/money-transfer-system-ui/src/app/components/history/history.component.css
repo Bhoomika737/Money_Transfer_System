@@ -1,0 +1,660 @@
+/* ============================================ */
+/* Transaction History Component Styles */
+/* ============================================ */
+
+/* ============================================ */
+/* Main Container */
+/* ============================================ */
+
+.history-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  background: linear-gradient(135deg, #f0fdf4 0%, #dcfce7 100%);
+  padding: 2rem;
+  border-radius: 20px;
+  box-shadow: 0 10px 40px rgba(34, 197, 94, 0.15);
+  min-height: 100vh;
+}
+
+/* ============================================ */
+/* Header Section */
+/* ============================================ */
+
+.history-header {
+  max-width: 1200px;
+  margin: 0 auto 2rem;
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  justify-content: space-between;
+  padding: 1.5rem;
+  background: #ffffff;
+  border-radius: 16px;
+  box-shadow: 0 2px 8px rgba(34, 197, 94, 0.08);
+}
+
+.history-header > div {
+  flex: 1;
+}
+
+.history-header h1 {
+  font-size: 2rem;
+  font-weight: 700;
+  color: #2c3e50;
+  margin: 0 0 0.25rem;
+  line-height: 1.2;
+  letter-spacing: -0.5px;
+}
+
+.history-header p {
+  color: #7f8c8d;
+  margin: 0;
+  font-size: 1rem;
+  font-weight: 500;
+}
+
+.history-header button {
+  height: 48px;
+  padding: 0 2rem;
+  border-radius: 10px;
+  font-weight: 600;
+  font-size: 1rem;
+  background: linear-gradient(135deg, #22c55e 0%, #16a34a 100%);
+  color: #ffffff;
+  border: none;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 2px 8px rgba(34, 197, 94, 0.08);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+}
+
+.history-header button:hover:not([disabled]) {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 16px rgba(34, 197, 94, 0.12);
+}
+
+.history-header button:active:not([disabled]) {
+  transform: translateY(0);
+}
+
+.history-header button[disabled] {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.history-header button mat-icon {
+  font-size: 1.25rem;
+  width: 1.25rem;
+  height: 1.25rem;
+}
+
+.back-btn {
+  color: #c6d3cb !important;
+  width: 48px;
+  height: 48px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 10px;
+  transition: all 0.3s ease;
+}
+
+.back-btn:hover {
+  background-color: rgba(207, 216, 210, 0.1);
+}
+
+.back-btn mat-icon {
+  color: white;
+  overflow: visible;
+}
+
+/* ============================================ */
+/* Content Section */
+/* ============================================ */
+
+.history-content {
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+/* ============================================ */
+/* Transactions Card */
+/* ============================================ */
+
+.transactions-card {
+  padding: 2rem;
+  border-radius: 16px;
+  background: #ffffff;
+  box-shadow: 0 4px 16px rgba(34, 197, 94, 0.12);
+  min-height: 400px;
+}
+
+/* ============================================ */
+/* Loading State */
+/* ============================================ */
+
+.loading-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 4rem 0;
+  gap: 1rem;
+}
+
+.loading-container mat-spinner ::ng-deep circle {
+  stroke: #22c55e;
+}
+
+.loading-container p {
+  margin: 0;
+  color: #7f8c8d;
+  font-size: 1.125rem;
+  font-weight: 500;
+}
+
+/* ============================================ */
+/* Empty State */
+/* ============================================ */
+
+.empty-state {
+  text-align: center;
+  padding: 4rem 2rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.empty-state mat-icon {
+  font-size: 5rem;
+  width: 5rem;
+  height: 5rem;
+  color: #d0d0d0;
+  margin-bottom: 1rem;
+}
+
+.empty-state h3 {
+  font-size: 1.5rem;
+  font-weight: 600;
+  color: #2c3e50;
+  margin: 0 0 0.5rem;
+}
+
+.empty-state p {
+  color: #7f8c8d;
+  margin: 0;
+  font-size: 1rem;
+}
+
+/* ============================================ */
+/* Table Container */
+/* ============================================ */
+
+.table-container {
+  overflow-x: auto;
+  border-radius: 10px;
+  border: 1px solid #e0e0e0;
+}
+
+.table-container::-webkit-scrollbar {
+  height: 8px;
+}
+
+.table-container::-webkit-scrollbar-track {
+  background: #f5f7fa;
+  border-radius: 4px;
+}
+
+.table-container::-webkit-scrollbar-thumb {
+  background: #95a5a6;
+  border-radius: 4px;
+}
+
+.table-container::-webkit-scrollbar-thumb:hover {
+  background: #7f8c8d;
+}
+
+/* ============================================ */
+/* Table Styles */
+/* ============================================ */
+
+.transactions-table {
+  width: 100%;
+  border-collapse: separate;
+  border-spacing: 0;
+}
+
+.transactions-table th {
+  background-color: #f5f7fa;
+  font-weight: 700;
+  color: #2c3e50;
+  font-size: 0.875rem;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  padding: 1.5rem 1rem;
+  text-align: left;
+  white-space: nowrap;
+  position: sticky;
+  top: 0;
+  z-index: 10;
+  border-bottom: 2px solid #e0e0e0;
+}
+
+.transactions-table th:first-child {
+  border-top-left-radius: 10px;
+}
+
+.transactions-table th:last-child {
+  border-top-right-radius: 10px;
+}
+
+.transactions-table td {
+  padding: 1.25rem 1rem;
+  border-bottom: 1px solid #e0e0e0;
+  vertical-align: middle;
+  background: #ffffff;
+  transition: background-color 0.2s ease;
+}
+
+.transactions-table tr {
+  transition: all 0.2s ease;
+}
+
+.transactions-table tr:hover td {
+  background-color: #f9f9f9;
+}
+
+.transactions-table tr:last-child td {
+  border-bottom: none;
+}
+
+.transactions-table tr:last-child td:first-child {
+  border-bottom-left-radius: 10px;
+}
+
+.transactions-table tr:last-child td:last-child {
+  border-bottom-right-radius: 10px;
+}
+
+/* ============================================ */
+/* Date Cell */
+/* ============================================ */
+
+.date-cell {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.date-cell mat-icon {
+  color: #7f8c8d;
+  font-size: 1.25rem;
+  width: 1.25rem;
+  height: 1.25rem;
+  flex-shrink: 0;
+}
+
+.date-cell span {
+  color: #2c3e50;
+  font-weight: 500;
+  font-size: 0.875rem;
+  white-space: nowrap;
+}
+
+/* ============================================ */
+/* Chips (Type & Status) */
+/* ============================================ */
+
+.transactions-table mat-chip {
+  font-weight: 600;
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  border-radius: 20px;
+  padding: 0.5rem 1rem;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  border: none;
+  cursor: default;
+}
+
+.transactions-table mat-chip mat-icon {
+  font-size: 1rem;
+  width: 1rem;
+  height: 1rem;
+}
+
+/* Debit Chip */
+.debit-chip {
+  background-color: #ffebee;
+  color: #c62828;
+}
+
+.debit-chip mat-icon {
+  color: #c62828;
+}
+
+/* Credit Chip */
+.credit-chip {
+  background-color: #e8f5e9;
+  color: #2e7d32;
+}
+
+.credit-chip mat-icon {
+  color: #2e7d32;
+}
+
+/* Success Status */
+.success-status {
+  background-color: #e8f5e9;
+  color: #2e7d32;
+}
+
+.success-status mat-icon {
+  color: #2e7d32;
+}
+
+/* Failed Status */
+.failed-status {
+  background-color: #ffebee;
+  color: #c62828;
+}
+
+.failed-status mat-icon {
+  color: #c62828;
+}
+
+/* ============================================ */
+/* Account Cell */
+/* ============================================ */
+
+.account-cell {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.account-cell mat-icon {
+  color: #22c55e;
+  font-size: 1.5rem;
+  width: 1.5rem;
+  height: 1.5rem;
+  flex-shrink: 0;
+}
+
+.account-cell > div {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.account-label {
+  display: block;
+  font-size: 0.75rem;
+  color: #7f8c8d;
+  text-transform: uppercase;
+  font-weight: 600;
+  letter-spacing: 0.5px;
+}
+
+.account-number {
+  display: block;
+  font-size: 1rem;
+  color: #2c3e50;
+  font-weight: 600;
+}
+
+/* ============================================ */
+/* Amount Cell */
+/* ============================================ */
+
+.amount {
+  font-size: 1.125rem;
+  font-weight: 700;
+  font-family: 'Roboto Mono', monospace;
+  white-space: nowrap;
+}
+
+.debit-amount {
+  color: #c62828;
+}
+
+.credit-amount {
+  color: #2e7d32;
+}
+
+/* ============================================ */
+/* Failure Reason */
+/* ============================================ */
+
+.failure-reason {
+  margin-top: 0.5rem;
+  padding: 0.5rem 1rem;
+  background-color: rgba(198, 40, 40, 0.05);
+  border-radius: 8px;
+  border-left: 3px solid #c62828;
+}
+
+.failure-reason small {
+  color: #c62828;
+  font-size: 0.75rem;
+  font-weight: 500;
+  display: block;
+  line-height: 1.4;
+}
+
+/* ============================================ */
+/* Remarks Cell */
+/* ============================================ */
+
+.no-remarks {
+  color: #95a5a6;
+  font-style: italic;
+  font-size: 0.875rem;
+}
+
+/* ============================================ */
+/* Transaction Count */
+/* ============================================ */
+
+.transaction-count {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-top: 1.5rem;
+  padding: 1rem 1.5rem;
+  background-color: #f5f7fa;
+  border-radius: 8px;
+  color: #7f8c8d;
+  font-weight: 500;
+  font-size: 0.875rem;
+}
+
+.transaction-count mat-icon {
+  font-size: 1.25rem;
+  width: 1.25rem;
+  height: 1.25rem;
+  color: #22c55e;
+}
+
+.transaction-count span {
+  font-weight: 600;
+}
+
+/* ============================================ */
+/* Responsive Design - Tablet */
+/* ============================================ */
+
+@media (max-width: 1024px) {
+  .history-container {
+    padding: 1.5rem;
+  }
+
+  .transactions-card {
+    padding: 1.5rem;
+  }
+}
+
+/* ============================================ */
+/* Responsive Design - Mobile */
+/* ============================================ */
+
+@media (max-width: 768px) {
+  .history-container {
+    padding: 1rem;
+    border-radius: 10px;
+  }
+
+  .history-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 1rem;
+    padding: 1rem;
+  }
+
+  .history-header h1 {
+    font-size: 1.5rem;
+  }
+
+  .history-header p {
+    font-size: 0.875rem;
+  }
+
+  .history-header button {
+    width: 100%;
+    justify-content: center;
+  }
+
+  .back-btn {
+    width: 40px;
+    height: 40px;
+  }
+
+  .transactions-card {
+    padding: 1rem;
+  }
+
+  .transactions-table th {
+    padding: 1rem 0.5rem;
+    font-size: 0.75rem;
+  }
+
+  .transactions-table td {
+    padding: 1rem 0.5rem;
+    font-size: 0.875rem;
+  }
+
+  .date-cell {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.25rem;
+  }
+
+  .date-cell mat-icon {
+    display: none;
+  }
+
+  .date-cell span {
+    font-size: 0.75rem;
+  }
+
+  .account-cell {
+    gap: 0.5rem;
+  }
+
+  .account-cell mat-icon {
+    font-size: 1.25rem;
+    width: 1.25rem;
+    height: 1.25rem;
+  }
+
+  .account-label {
+    font-size: 0.625rem;
+  }
+
+  .account-number {
+    font-size: 0.875rem;
+  }
+
+  .amount {
+    font-size: 1rem;
+  }
+
+  .transactions-table mat-chip {
+    padding: 0.25rem 0.5rem;
+    font-size: 0.625rem;
+  }
+
+  .transactions-table mat-chip mat-icon {
+    font-size: 0.875rem;
+    width: 0.875rem;
+    height: 0.875rem;
+  }
+
+  .transaction-count {
+    padding: 0.5rem 1rem;
+    font-size: 0.75rem;
+  }
+
+  .transaction-count mat-icon {
+    font-size: 1rem;
+    width: 1rem;
+    height: 1rem;
+  }
+}
+
+/* ============================================ */
+/* Responsive Design - Small Mobile */
+/* ============================================ */
+
+@media (max-width: 480px) {
+  .history-container {
+    padding: 0.5rem;
+  }
+
+  .history-header {
+    padding: 0.5rem;
+  }
+
+  .history-header h1 {
+    font-size: 1.125rem;
+  }
+
+  .transactions-card {
+    padding: 0.5rem;
+  }
+
+  .transactions-table th,
+  .transactions-table td {
+    padding: 0.5rem;
+  }
+
+  .account-cell mat-icon {
+    display: none;
+  }
+}
+
+/* ============================================ */
+/* Print Styles */
+/* ============================================ */
+
+@media print {
+  .history-container {
+    background: #ffffff;
+    box-shadow: none;
+  }
+
+  .history-header button,
+  .history-header .back-btn {
+    display: none;
+  }
+
+  .transactions-table tr:hover td {
+    background-color: #ffffff !important;
+  }
+}
