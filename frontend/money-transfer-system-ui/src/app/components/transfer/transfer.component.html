@@ -1,0 +1,163 @@
+<div class="transfer-container">
+  <div class="transfer-header">
+    <button mat-icon-button (click)="goBack()" class="back-btn">
+      <mat-icon>arrow_back</mat-icon>
+    </button>
+    <div>
+      <h1>Transfer Funds</h1>
+      <p>Quick and secure fund transfer</p>
+    </div>
+  </div>
+
+  <div class="transfer-content">
+    <!-- Account Info Card -->
+    <mat-card class="account-info-card">
+      <div class="info-header">
+        <mat-icon>account_circle</mat-icon>
+        <div>
+          <h3>{{ userName }}</h3>
+          <p>Account: {{ maskAccountNumber() }}</p>
+        </div>
+      </div>
+    
+      <div class="balance-info">
+        <span class="label">Balance</span>
+        <span class="balance" *ngIf="!fetchingFunds">
+          ₹{{ funds | number:'1.2-2' }}
+        </span>
+        <mat-spinner *ngIf="fetchingFunds" diameter="24"></mat-spinner>
+      </div>
+    </mat-card>
+
+    <!-- Transfer Form Card -->
+    <mat-card class="transfer-form-card">
+      <h2>
+        <mat-icon>send</mat-icon>
+        Transfer
+      </h2>
+
+      <form [formGroup]="txnForm" (ngSubmit)="doTransaction()" *ngIf="!operationDone">
+        <mat-form-field appearance="outline" class="full-width">
+          <mat-label>Account Number</mat-label>
+          <input 
+            matInput 
+            formControlName="targetId" 
+            placeholder="Enter account number"
+            type="text">
+          <mat-icon matPrefix>account_balance</mat-icon>
+          <mat-error *ngIf="form['targetId'].hasError('required')">
+            Account Number is required
+          </mat-error>
+          <mat-error *ngIf="form['targetId'].hasError('pattern')">
+            Invalid Account Number
+          </mat-error>
+        </mat-form-field>
+
+
+        <mat-form-field appearance="outline" class="full-width">
+          <mat-label>Amount</mat-label>
+          <input 
+            matInput 
+            formControlName="value" 
+            placeholder="0.00"
+            type="number"
+            step="0.01">
+          <span matPrefix>₹&nbsp;</span>
+          <mat-icon matSuffix matTooltip="Amount">info</mat-icon>
+          <mat-error *ngIf="form['value'].hasError('required')">
+            Required
+          </mat-error>
+          <mat-error *ngIf="form['value'].hasError('min')">
+            Min amount is 1
+          </mat-error>
+          <mat-error *ngIf="form['value'].hasError('pattern')">
+            Invalid amount
+          </mat-error>
+          <mat-hint>Max: ₹{{ funds | number:'1.2-2' }}</mat-hint>
+        </mat-form-field>
+
+        <mat-form-field appearance="outline" class="full-width">
+          <mat-label>Remarks (optional)</mat-label>
+          <input matInput formControlName="remarks" maxlength="100" placeholder="Add a note (optional)">
+          <mat-hint align="end">Optional</mat-hint>
+        </mat-form-field>
+
+        <div class="form-actions">
+          <button 
+            mat-raised-button 
+            type="button"
+            (click)="resetForm()"
+            [disabled]="processing">
+            Clear
+          </button>
+          <button 
+            mat-raised-button 
+            color="primary" 
+            type="submit"
+            [disabled]="processing || txnForm.invalid">
+            <span *ngIf="!processing">
+              <mat-icon>compare_arrows</mat-icon>
+              Transfer
+            </span>
+            <mat-spinner *ngIf="processing" diameter="24"></mat-spinner>
+          </button>
+        </div>
+      </form>
+
+      <!-- Success/Failure Section -->
+      <div class="success-box" *ngIf="operationDone && operationData">
+  <button mat-icon-button class="close-btn" (click)="resetForm()">
+    <mat-icon>close</mat-icon>
+  </button>
+  <div class="success-icon" [ngClass]="{'failure-icon': operationData.status === 'FAILED'}">
+    <mat-icon>{{ operationData.status === 'SUCCESS' ? 'check_circle' : 'error' }}</mat-icon>
+  </div>
+  <h3>{{ operationData.status === 'SUCCESS' ? 'Transfer Done!' : 'Transfer Failed' }}</h3>
+  
+  <!-- Show failure reason if transaction failed -->
+  <div class="failure-reason" *ngIf="operationData.status === 'FAILED' && operationData.failureReason">
+    <p><strong>Reason:</strong> {{ operationData.failureReason }}</p>
+  </div>
+
+  <div class="result-details">
+    <div class="detail-row">
+      <span class="label">Transaction ID:</span>
+      <span class="value">{{ operationData.id }}</span>
+    </div>
+    <div class="detail-row">
+      <span class="label">Amount:</span>
+      <span class="value">₹{{ operationData.amount | number:'1.2-2' }}</span>
+    </div>
+    <div class="detail-row">
+      <span class="label">From Account:</span>
+      <span class="value">{{ operationData.fromAccountId }}</span>
+    </div>
+    <div class="detail-row">
+      <span class="label">To Account:</span>
+      <span class="value">{{ operationData.toAccountId }}</span>
+    </div>
+    <div class="detail-row">
+      <span class="label">Status:</span>
+      <span class="value" [ngClass]="{'status-success': operationData.status === 'SUCCESS', 'status-failed': operationData.status === 'FAILED'}">
+        {{ operationData.status }}
+      </span>
+    </div>
+    <div class="detail-row">
+      <span class="label">Remarks:</span>
+      <span class="value">{{ operationData.remarks || '—' }}</span>
+    </div>
+  </div>
+  <div class="success-actions">
+    <button mat-raised-button (click)="resetForm()">
+      <mat-icon>add</mat-icon>
+      New Transfer
+    </button>
+    <button mat-raised-button style="width: 100%; margin-top: 10px;" (click)="resetForm()">
+      <mat-icon>arrow_back</mat-icon>
+      Go Back
+    </button>
+  </div>
+</div>
+</mat-card>
+  </div>
+</div>

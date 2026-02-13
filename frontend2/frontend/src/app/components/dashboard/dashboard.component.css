@@ -1,0 +1,379 @@
+.dashboard-container {
+  max-width: 800px;
+  margin: 0 auto;
+  background: linear-gradient(135deg, #f0fdf4 0%, #dcfce7 100%);
+  padding: 1.5rem;
+  border-radius: 20px;
+  box-shadow: 0 10px 40px rgba(34, 197, 94, 0.15);
+}
+
+.dashboard-header {
+  max-width: 800px;
+  margin: 0 auto 1.5rem;
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+
+  > div {
+    flex: 1;
+  }
+
+  h1 {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: #2c3e50;
+    margin: 0 0 0.15rem;
+  }
+
+  p {
+    color: #7f8c8d;
+    margin: 0;
+  }
+}
+
+.back-btn {
+  color: #22c55e !important;
+}
+
+.dashboard-content {
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+.loading-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 3rem 2rem;
+  text-align: center;
+
+  p {
+    color: #7f8c8d;
+    margin-top: 1rem;
+  }
+}
+
+
+.welcome-card {
+  padding: 1.5rem;
+  margin-bottom: 1.5rem;
+  border-radius: 16px;
+  background: linear-gradient(135deg, #22c55e 0%, #16a34a 100%);
+  color: white;
+  box-shadow: 0 8px 24px rgba(34, 197, 94, 0.3);
+
+  .welcome-header {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    margin-bottom: 1rem;
+
+    mat-icon {
+      font-size: 2.5rem;
+      width: 2.5rem;
+      height: 2.5rem;
+    }
+
+    h3 {
+      font-size: 1.25rem;
+      font-weight: 600;
+      margin: 0;
+    }
+
+    p {
+      font-size: 0.875rem;
+      opacity: 0.9;
+      margin: 0;
+    }
+  }
+
+  mat-divider {
+    margin: 1rem 0;
+    background-color: rgba(255, 255, 255, 0.3);
+  }
+
+  .balance-section {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    .balance-label {
+      font-size: 0.95rem;
+      opacity: 0.9;
+    }
+
+    .balance-amount {
+      font-size: 2rem;
+      font-weight: 700;
+    }
+  }
+}
+
+
+.actions-card {
+  padding: 1.5rem;
+  margin-bottom: 1.5rem;
+  border-radius: 16px;
+  box-shadow: 0 8px 24px rgba(34, 197, 94, 0.1);
+
+  h2 {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 1.25rem;
+    font-weight: 600;
+    color: #2c3e50;
+    margin: 0 0 1.5rem;
+
+    mat-icon {
+      color: #22c55e;
+    }
+  }
+}
+
+.actions-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  gap: 1rem;
+}
+
+.action-btn {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 1rem;
+  min-height: 120px;
+  border-radius: 12px;
+  font-weight: 500;
+  transition: all 0.3s ease;
+
+  mat-icon {
+    font-size: 1.75rem;
+    width: 1.75rem;
+    height: 1.75rem;
+  }
+
+  span {
+    font-size: 0.85rem;
+    text-align: center;
+  }
+
+  &:not(:disabled):hover {
+    transform: translateY(-4px);
+    box-shadow: 0 8px 16px rgba(34, 197, 94, 0.3);
+  }
+}
+
+.transfer-action {
+  background: linear-gradient(135deg, #1cc75a 0%, #15803D 100%);
+  color: white;
+}
+
+.history-action {
+  background: linear-gradient(135deg, #4ADE80 0%, #15803D 100%);
+  color: white;
+}
+
+.profile-action {
+  background: linear-gradient(135deg,  #22c55e 0%, #16a34a 100%);
+  color: white;
+
+  &:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+  }
+}
+
+.logout-action {
+  background: linear-gradient(135deg, #DC2626 0%, #EF4444 100%);
+  color: white;
+}
+
+
+.info-cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 1rem;
+}
+
+info-card {
+  padding: 1.5rem;
+  border-radius: 12px;
+  text-align: center;
+  box-shadow: 0 4px 12px rgba(34, 197, 94, 0.1);
+  transition: all 0.3s ease;
+
+  &:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 8px 24px rgba(34, 197, 94, 0.2);
+  }
+
+  .info-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 60px;
+    height: 60px;
+    margin: 0 auto 1rem;
+    border-radius: 50%;
+
+    mat-icon {
+      font-size: 2rem;
+      width: 2rem;
+      height: 2rem;
+    }
+  }
+
+  h4 {
+    font-size: 1rem;
+    font-weight: 600;
+    color: #2c3e50;
+    margin: 0 0 0.5rem;
+  }
+
+  p {
+    font-size: 0.85rem;
+    color: #7f8c8d;
+    margin: 0;
+    line-height: 1.4;
+  }
+}
+
+
+security-icon {
+  background: rgba(34, 197, 94, 0.1);
+  color: #22c55e;
+}
+
+fast-icon {
+  background: rgba(34, 197, 94, 0.08);
+  color: #16a34a;
+}
+
+.support-icon {
+  background: rgba(236, 72, 153, 0.1);
+  color: #EC4899;
+}
+
+
+:host ::ng-deep {
+  .dark-theme {
+    .dashboard-container {
+      background: linear-gradient(135deg, #1e1e1e 0%, #2a2a2a 100%);
+    }
+
+    .dashboard-header {
+      h1 {
+        color: #ffffff;
+      }
+
+      p {
+        color: #b0b0b0;
+      }
+    }
+
+    .actions-card {
+      background: #1e1e1e;
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3);
+
+      h2 {
+        color: #ffffff;
+      }
+    }
+
+    .info-card {
+      background: #2a2a2a;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+
+      h4 {
+        color: #ffffff;
+      }
+
+      p {
+        color: #b0b0b0;
+      }
+
+      &:hover {
+        box-shadow: 0 8px 24px rgba(0, 0, 0, 0.5);
+      }
+    }
+  }
+}
+
+
+@media (max-width: 768px) {
+  .dashboard-container {
+    padding: 1rem;
+    border-radius: 12px;
+  }
+
+  .dashboard-header {
+    h1 {
+      font-size: 1.25rem;
+    }
+  }
+
+  .actions-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .action-btn {
+    min-height: 100px;
+  }
+
+  .info-cards {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 500px) {
+  .dashboard-header {
+    margin-bottom: 1rem;
+
+    h1 {
+      font-size: 1.1rem;
+    }
+
+    p {
+      font-size: 0.85rem;
+    }
+  }
+
+  .welcome-card {
+    padding: 1rem;
+
+    .welcome-header {
+      mat-icon {
+        font-size: 2rem;
+        width: 2rem;
+        height: 2rem;
+      }
+
+      h3 {
+        font-size: 1rem;
+      }
+    }
+  }
+
+  .actions-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 0.75rem;
+  }
+
+  .action-btn {
+    padding: 0.75rem;
+    min-height: 90px;
+
+    mat-icon {
+      font-size: 1.5rem;
+      width: 1.5rem;
+      height: 1.5rem;
+    }
+
+    span {
+      font-size: 0.75rem;
+    }
+  }
+}
