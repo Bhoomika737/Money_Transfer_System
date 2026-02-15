@@ -1,0 +1,90 @@
+<div class="dashboard-container">
+  <div class="dashboard-header">
+    <button mat-icon-button (click)="logout()" class="back-btn" matTooltip="Go back">
+      <mat-icon>arrow_back</mat-icon>
+    </button>
+    <div>
+      <h1>Account Dashboard</h1>
+      <p>Manage your account and transactions</p>
+    </div>
+  </div>
+
+  <div class="dashboard-content">
+    <!-- Loading State -->
+    <div class="loading-container" *ngIf="isLoading">
+      <mat-spinner diameter="60"></mat-spinner>
+      <p>Loading your account...</p>
+    </div>
+
+    <!-- Main Content -->
+    <ng-container *ngIf="!isLoading">
+      <!-- Welcome Card -->
+      <mat-card class="welcome-card">
+        <div class="welcome-header">
+          <mat-icon>account_circle</mat-icon>
+          <div>
+            <h3>Welcome, {{ holderName }}</h3>
+            <p *ngIf="accountNumber">Account: {{ accountNumber }}</p>
+          </div>
+        </div>
+
+        <mat-divider></mat-divider>
+
+        <div class="balance-section">
+          <span class="balance-label">Available Balance</span>
+          <span class="balance-amount">₹{{ balance | number:'1.2-2' }}</span>
+        </div>
+      </mat-card>
+
+      <!-- Quick Actions Card -->
+      <mat-card class="actions-card">
+        <h2>
+          <mat-icon>touch_app</mat-icon>
+          Quick Actions
+        </h2>
+
+        <div class="actions-grid">
+          <!-- Transfer Button -->
+          <button 
+            mat-raised-button 
+            class="action-btn transfer-action"
+            (click)="navigateToTransfer()"
+            matTooltip="Send money to another account">
+            <mat-icon>compare_arrows</mat-icon>
+            <span>Transfer Money</span>
+          </button>
+
+          <!-- History Button -->
+          <button 
+            mat-raised-button 
+            class="action-btn history-action"
+            (click)="navigateToHistory()"
+            matTooltip="View all transactions">
+            <mat-icon>receipt_long</mat-icon>
+            <span>Transaction History</span>
+          </button>
+
+          <!-- Profile Button -->
+          <button 
+            mat-raised-button 
+            class="action-btn profile-action"
+            (click)="navigateToProfile()"
+            matTooltip="Manage your profile">
+            <mat-icon>person</mat-icon>
+            <span>Profile Settings</span>
+          </button>
+
+          <!-- Logout Button -->
+          <button 
+            mat-raised-button 
+            class="action-btn logout-action"
+            (click)="logout()"
+            matTooltip="Sign out of your account">
+            <mat-icon>logout</mat-icon>
+            <span>Logout</span>
+          </button>
+        </div>
+      </mat-card>
+    </ng-container>
+  </div>
+</div>
