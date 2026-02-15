@@ -9,8 +9,8 @@ import lombok.*;
 @Entity
 @Table(name = "transaction_logs")
 @Builder
-@NoArgsConstructor   // Required by JPA
-@AllArgsConstructor  // Optional: full constructor for all fields
+@NoArgsConstructor
+@AllArgsConstructor
 @Getter
 @Setter
 @ToString
@@ -35,9 +35,12 @@ public class TransactionLog {
     @Column(name = "failure_reason")
     private String failureReason;
 
-    @Column(name = "idempotency_key")
+    @Column(name = "idempotency_key", nullable = false, unique = true)
     private String idempotencyKey;
 
     @Column(name = "created_on")
     private Instant createdOn;
+
+    @Column(name ="remarks")
+    private  String remarks;
 }
