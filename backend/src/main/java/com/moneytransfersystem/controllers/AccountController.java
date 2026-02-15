@@ -64,4 +64,26 @@ public class AccountController {
             ));
         }
     }
+
+    @PostMapping("/change-password")
+    public ResponseEntity<Map<String, String>> changePassword(@RequestBody Map<String, String> payload) {
+        String accountId = payload.get("accountId");
+        String currentPassword = payload.get("currentPassword");
+        String newPassword = payload.get("newPassword");
+
+        try {
+            accountService.changePassword(accountId, currentPassword, newPassword);
+            return ResponseEntity.ok(Map.of(
+                    "message", "Password changed successfully"
+            ));
+        } catch (IllegalArgumentException e) {
+            return ResponseEntity.status(400).body(Map.of(
+                    "message", "Current password is incorrect"
+            ));
+        } catch (Exception e) {
+            return ResponseEntity.status(500).body(Map.of(
+                    "message", "Failed to change password"
+            ));
+        }
+    }
 }
