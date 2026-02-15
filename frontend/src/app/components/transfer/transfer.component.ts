@@ -11,6 +11,7 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { AccountService } from '../../services/account.service';
 import { TransferService } from '../../services/transfer.service';
 import { MatSnackBar,MatSnackBarModule } from '@angular/material/snack-bar';
+import { AuthService } from '../../services/auth.service';
 @Component({
   selector: 'app-transfer',
   standalone: true,
@@ -43,7 +44,8 @@ export class TransferComponent implements OnInit {
     private accountService: AccountService,
     private transferService: TransferService,
     private router: Router,
-    private snackBar:MatSnackBar
+    private snackBar:MatSnackBar,
+    private authService: AuthService
   ) {}
 
   ngOnInit() {
@@ -53,19 +55,20 @@ export class TransferComponent implements OnInit {
       remarks: ['']
     });
 
-    const accountId = localStorage.getItem('accountId');
-    if (accountId) {
-      this.accountService.getAccount(accountId).subscribe({
+    const accountId = this.authService.getAccountId() ?? '';
+    const effectiveAccountId = accountId;
+    if (effectiveAccountId) {
+      this.accountService.getAccount(effectiveAccountId).subscribe({
         next: acc => {
           this.userName = acc.holderName;
           this.funds = acc.balance;
-          this.accountNumber = acc.accountNumber ?? accountId;
+          this.accountNumber = acc.accountNumber ?? effectiveAccountId;
           this.fetchingFunds = false;
         },
         error: () => {
           this.userName = 'Unknown';
           this.funds = 0;
-          this.accountNumber = accountId;
+          this.accountNumber = effectiveAccountId;
           this.fetchingFunds = false;
         }
       });
@@ -123,7 +126,7 @@ export class TransferComponent implements OnInit {
       }
       
       // Refresh account balance (for successful transfers)
-      const accountId = localStorage.getItem('accountId');
+      const accountId = this.authService.getAccountId();
       if (accountId && transaction.status === 'SUCCESS') {
         this.accountService.getAccount(accountId).subscribe({
           next: acc => {
@@ -144,8 +147,18 @@ export class TransferComponent implements OnInit {
         this.operationDone = true;
         this.notify('Transfer failed: ' + (err.error.reason || err.error.message), 4000);
       } else {
-        // Generic error without transaction
+        // Generic error without transaction -> show inline failure card with available info
         const backendMsg = err.error?.message || err.error?.error || 'Transaction failed. Please try again.';
+        this.operationData = {
+          status: 'FAILED',
+          failureReason: backendMsg,
+          id: '—',
+          amount: Number(this.txnForm.value.value) || 0,
+          fromAccountId: this.accountNumber,
+          toAccountId: this.txnForm.value.targetId,
+          remarks: this.txnForm.value.remarks
+        };
+        this.operationDone = true;
         this.notify(backendMsg, 3000);
       }
     }

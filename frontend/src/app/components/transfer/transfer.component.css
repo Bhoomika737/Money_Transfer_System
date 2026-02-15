@@ -241,16 +241,31 @@
             color: #ef4444;
             font-weight: 700;
           }
+
+          &.failure-text {
+            color: #b91c1c; /* slightly darker red */
+            font-weight: 700;
+            white-space: pre-wrap;
+          }
         }
+      }
+
+      /* when transaction failed, give the same 'details card' a red accent */
+      &.failed-details {
+        background-color: #fff6f6;
+        border-left: 4px solid #ef4444;
       }
     }
 
     .success-actions {
       display: flex;
       gap: 1rem;
+      align-items: center;
+      padding-top: -20px;
 
       button {
-        flex: 1;
+        flex: 1 1 0;
+        min-width: 0;
         height: 42px;
         font-size: 0.95rem;
         font-weight: 600;
@@ -264,9 +279,27 @@
           margin-right: 0.5rem;
         }
       }
+
+      /* specific tweaks for the two actions to keep visual balance */
+      .action-new { }
+      .action-back { }
     }
   }
 }
+.btn-content {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px; /* space between icon and text */
+  width: 100%;
+}
+
+button.mat-raised-button {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
 
 .security-info {
   display: flex;
@@ -324,8 +357,11 @@
 
     .success-message {
       .success-actions {
-        flex-direction: column;
-      }
+          flex-direction: column;
+
+          /* when stacked, ensure buttons have full width and proper spacing */
+          button { width: 100%; }
+        }
     }
   }
 }
