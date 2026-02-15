@@ -3,8 +3,8 @@ spring:
     name: moneytransfersystem
   datasource:
     url: jdbc:mysql://localhost:3306/Moneydb?createDatabaseIfNotExist=true
-    username: root
-    password: Root123$
+    username: 
+    password: 
     driver-class-name: com.mysql.cj.jdbc.Driver
 
   jpa:
@@ -28,9 +28,9 @@ logging:
 # Snowflake Data Warehouse Configuration
 snowflake:
   enabled: true
-  account: "ODHGGHC-WU48305"
-  user: "ajay006"
-  password: "Sharmaxbud0604"
+  account: ""
+  user: ""
+  password: ""
   database: "MONEY_TRANSFER_DW"
   schema: "ANALYTICS"
   warehouse: "COMPUTE_WH"
