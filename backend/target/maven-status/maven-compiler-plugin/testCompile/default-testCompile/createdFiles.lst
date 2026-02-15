@@ -1,0 +1,4 @@
+com\moneytransfersystem\controllers\TransferControllerTest.class
+com\moneytransfersystem\service\AccountServiceTest.class
+com\moneytransfersystem\controllers\AccountControllerTest.class
+com\moneytransfersystem\service\TransferServiceTest.class
