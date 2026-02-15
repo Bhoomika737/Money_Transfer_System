@@ -1,0 +1,221 @@
+<div class="profile-container">
+  <div class="profile-header">
+    <button mat-icon-button (click)="goBack()" class="back-btn">
+      <mat-icon>arrow_back</mat-icon>
+    </button>
+    <div>
+      <h1>Profile Settings</h1>
+      <p>Manage your account details</p>
+    </div>
+  </div>
+
+  <div class="profile-content">
+    <!-- Loading State -->
+    <div class="loading-container" *ngIf="isLoading">
+      <mat-spinner diameter="60"></mat-spinner>
+      <p>Loading your profile...</p>
+    </div>
+
+    <!-- Profile Content -->
+    <ng-container *ngIf="!isLoading">
+      <!-- Profile Information Card -->
+      <mat-card class="profile-card">
+        <div class="profile-header-section">
+          <div class="profile-avatar">
+            <mat-icon>account_circle</mat-icon>
+          </div>
+          <div>
+            <h3 *ngIf="!isEditing">{{ holderName }}</h3>
+            <div *ngIf="isEditing" class="edit-name-field">
+              <mat-form-field appearance="outline" class="full-width">
+                <mat-label>Full Name</mat-label>
+                <input matInput [(ngModel)]="editName" placeholder="Enter your name" />
+              </mat-form-field>
+            </div>
+            <p class="account-number">Account: {{ accountNumber }}</p>
+          </div>
+        </div>
+
+        <mat-divider class="divider"></mat-divider>
+
+        <!-- Account Details -->
+        <div class="details-section">
+          <h4>Account Details</h4>
+          <div class="detail-row">
+            <span class="label">Account Holder:</span>
+            <span class="value">{{ holderName }}</span>
+          </div>
+          <div class="detail-row">
+            <span class="label">Account Number:</span>
+            <span class="value">{{ accountNumber }}</span>
+          </div>
+          <div class="detail-row">
+            <span class="label">Current Balance:</span>
+            <span class="value balance">₹{{ balance | number: '1.2-2' }}</span>
+          </div>
+        </div>
+
+        <!-- Action Buttons -->
+        <div class="action-buttons">
+          <button
+            mat-raised-button
+            color="primary"
+            *ngIf="!isEditing"
+            (click)="toggleEdit()"
+          >
+            <mat-icon>edit</mat-icon>
+            Edit Profile
+          </button>
+
+          <ng-container *ngIf="isEditing">
+            <button
+              mat-raised-button
+              color="primary"
+              [disabled]="isSaving"
+              (click)="saveProfile()"
+            >
+              <span *ngIf="!isSaving">
+                <mat-icon>save</mat-icon>
+                Save Changes
+              </span>
+              <mat-spinner *ngIf="isSaving" diameter="24"></mat-spinner>
+            </button>
+            <button mat-raised-button (click)="toggleEdit()" [disabled]="isSaving">
+              <mat-icon>cancel</mat-icon>
+              Cancel
+            </button>
+          </ng-container>
+        </div>
+      </mat-card>
+
+      <!-- Security Card -->
+      <mat-card class="security-card">
+        <h4>Account Security</h4>
+        <p class="security-info">
+          <mat-icon>shield</mat-icon>
+          Your account is protected with secure authentication. For additional
+          security measures, please contact our support team.
+        </p>
+
+        <div class="password-change-section">
+          <button
+            mat-raised-button
+            *ngIf="!isChangingPassword"
+            (click)="togglePasswordChange()"
+            class="change-password-btn"
+          >
+            <mat-icon>lock</mat-icon>
+            Change Password
+          </button>
+
+          <ng-container *ngIf="isChangingPassword">
+            <form [formGroup]="passwordForm" class="password-form">
+              <mat-form-field appearance="outline" class="full-width">
+                <mat-label>Current Password</mat-label>
+                <input
+                  matInput
+                  formControlName="currentPassword"
+                  [type]="hideCurrentPassword ? 'password' : 'text'"
+                  placeholder="Enter current password"
+                />
+                <button
+                  mat-icon-button
+                  matSuffix
+                  (click)="hideCurrentPassword = !hideCurrentPassword"
+                  type="button"
+                >
+                  <mat-icon>{{ hideCurrentPassword ? 'visibility_off' : 'visibility' }}</mat-icon>
+                </button>
+                <mat-error *ngIf="passwordForm.get('currentPassword')?.hasError('required')">
+                  Current password is required
+                </mat-error>
+              </mat-form-field>
+
+              <mat-form-field appearance="outline" class="full-width">
+                <mat-label>New Password</mat-label>
+                <input
+                  matInput
+                  formControlName="newPassword"
+                  [type]="hideNewPassword ? 'password' : 'text'"
+                  placeholder="Enter new password"
+                />
+                <button
+                  mat-icon-button
+                  matSuffix
+                  (click)="hideNewPassword = !hideNewPassword"
+                  type="button"
+                >
+                  <mat-icon>{{ hideNewPassword ? 'visibility_off' : 'visibility' }}</mat-icon>
+                </button>
+                <mat-error *ngIf="passwordForm.get('newPassword')?.hasError('required')">
+                  New password is required
+                </mat-error>
+                <mat-error *ngIf="passwordForm.get('newPassword')?.hasError('minlength')">
+                  Password must be at least 6 characters
+                </mat-error>
+              </mat-form-field>
+
+              <mat-form-field appearance="outline" class="full-width">
+                <mat-label>Confirm Password</mat-label>
+                <input
+                  matInput
+                  formControlName="confirmPassword"
+                  [type]="hideConfirmPassword ? 'password' : 'text'"
+                  placeholder="Confirm new password"
+                />
+                <button
+                  mat-icon-button
+                  matSuffix
+                  (click)="hideConfirmPassword = !hideConfirmPassword"
+                  type="button"
+                >
+                  <mat-icon>{{ hideConfirmPassword ? 'visibility_off' : 'visibility' }}</mat-icon>
+                </button>
+                <mat-error *ngIf="passwordForm.get('confirmPassword')?.hasError('required')">
+                  Please confirm password
+                </mat-error>
+              </mat-form-field>
+
+              <div class="password-actions">
+                <button
+                  mat-raised-button
+                  color="primary"
+                  type="button"
+                  [disabled]="isPasswordSaving || passwordForm.invalid"
+                  (click)="changePassword()"
+                >
+                  <span *ngIf="!isPasswordSaving">
+                    <mat-icon>check</mat-icon>
+                    Save Password
+                  </span>
+                  <mat-spinner *ngIf="isPasswordSaving" diameter="24"></mat-spinner>
+                </button>
+                <button
+                  mat-raised-button
+                  type="button"
+                  (click)="togglePasswordChange()"
+                  [disabled]="isPasswordSaving"
+                >
+                  <mat-icon>cancel</mat-icon>
+                  Cancel
+                </button>
+              </div>
+            </form>
+          </ng-container>
+        </div>
+      </mat-card>
+
+      <!-- Footer Actions -->
+      <div class="footer-actions">
+        <button mat-raised-button (click)="goBack()">
+          <mat-icon>arrow_back</mat-icon>
+          Back to Dashboard
+        </button>
+        <button mat-raised-button color="warn" (click)="logout()">
+          <mat-icon>logout</mat-icon>
+          Logout
+        </button>
+      </div>
+    </ng-container>
+  </div>
+</div>

@@ -12,4 +12,12 @@ export class AccountService {
   getAccount(accountId: string): Observable<any> {
     return this.http.get<any>(`${this.apiUrl}/${accountId}`);
   }
+
+  changePassword(accountId: string, currentPassword: string, newPassword: string): Observable<any> {
+    return this.http.post<any>(`${this.apiUrl}/change-password`, {
+      accountId,
+      currentPassword,
+      newPassword
+    });
+  }
 }

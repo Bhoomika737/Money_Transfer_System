@@ -27,6 +27,11 @@ export const routes: Routes = [
     canActivate: [AuthGuard]   // ✅ protected
   },
   { 
+    path: 'profile', 
+    loadComponent: () => import('./components/profile/profile.component').then(m => m.ProfileComponent),
+    canActivate: [AuthGuard]   // ✅ protected
+  },
+  { 
     path: '**', 
     redirectTo: '/login'   // ✅ fallback to login
   }

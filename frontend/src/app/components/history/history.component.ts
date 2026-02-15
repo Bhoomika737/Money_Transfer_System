@@ -9,6 +9,7 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
 import { Router } from '@angular/router';
 import { HistoryService } from '../../services/history.service';
+import { AuthService } from '../../services/auth.service';
 
 @Component({
   selector: 'app-history',
@@ -36,11 +37,12 @@ export class HistoryComponent implements OnInit {
   constructor(
     private transactionService: HistoryService,
     private snackBar: MatSnackBar,
-    private router: Router
+    private router: Router,
+    private authService: AuthService
   ) {}
 
   ngOnInit(): void {
-    this.accountId = localStorage.getItem('accountId') ?? '';
+    this.accountId = this.authService.getAccountId() ?? '';
     this.loadHistory();
   }
 

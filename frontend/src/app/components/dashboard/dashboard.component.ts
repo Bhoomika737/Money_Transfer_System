@@ -8,6 +8,7 @@ import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { Router } from '@angular/router';
 import { AccountService } from '../../services/account.service';
+import { AuthService } from '../../services/auth.service';
 
 @Component({
   selector: 'app-dashboard',
@@ -30,10 +31,10 @@ export class DashboardComponent implements OnInit {
   accountNumber = '';
   isLoading = true;
 
-  constructor(private accountService: AccountService, private router: Router) {}
+  constructor(private accountService: AccountService, private router: Router, private authService: AuthService) {}
 
   ngOnInit() {
-    const accountId = localStorage.getItem('accountId');
+    const accountId = this.authService.getAccountId() ?? '';
     if (accountId) {
       this.accountService.getAccount(accountId).subscribe({
         next: acc => {
@@ -63,10 +64,13 @@ export class DashboardComponent implements OnInit {
     this.router.navigate(['/history']);
   }
 
+  navigateToProfile() {
+    this.router.navigate(['/profile']);
+  }
+
   logout() {
-  localStorage.removeItem('authToken');
-  localStorage.removeItem('accountId');
-  this.router.navigate(['/login']);
-}
+    this.authService.logout();
+    this.router.navigate(['/login']);
+  }
 
 }
